@@ -31,7 +31,7 @@ public sealed partial class CEAdditionalSliceableDropSystem : EntitySystem
             {
                 var spawned = SpawnAtPosition(proto, pos);
                 _transform.SetLocalRotation(spawned, _random.NextAngle());
-                _stack.TryMergeToContacts(spawned, xform: xform);
+                _stack.TryMergeToContacts((spawned, null, xform));
             }
         }
     }

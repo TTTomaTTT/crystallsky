@@ -210,12 +210,11 @@
   - type: PassiveDamage
     allowedStates:
     - Alive
-    damageCap: 80
+    damageCap: 20
     damage:
       groups:
         Brute: -0.07
-        Burn: -0.05
-        Toxin: -0.03
+        Burn: -0.07
   - type: StatusEffects
     allowed:
     - Stun

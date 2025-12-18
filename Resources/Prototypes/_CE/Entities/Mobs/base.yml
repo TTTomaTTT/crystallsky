@@ -30,6 +30,7 @@
         sound:
           collection: MeatLaserImpact
   - type: Stamina
+  - type: StunVisuals
   - type: MobState
   - type: MobThresholds
     thresholds:

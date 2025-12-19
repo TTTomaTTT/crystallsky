@@ -29,7 +29,7 @@
   - type: BatteryAmmoProvider
     proto: CEPeaceKeeperHitscan
     fireCost: 10
-  - type: Battery
+  - type: PredictedBattery
     maxCharge: 50
     startingCharge: 50
   - type: Gun

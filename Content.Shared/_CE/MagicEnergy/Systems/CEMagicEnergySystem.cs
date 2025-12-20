@@ -48,7 +48,7 @@ public abstract class CESharedMagicEnergySystem : EntitySystem
             return;
 
         var level = ContentHelpers.RoundToLevels(
-            battery.CurrentCharge,
+            battery.LastCharge,
             battery.MaxCharge,
             _alert.GetMaxSeverity(energyAlert.AlertType));
 

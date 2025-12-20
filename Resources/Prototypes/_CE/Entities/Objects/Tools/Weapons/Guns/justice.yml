@@ -32,7 +32,7 @@
   - type: BatteryAmmoProvider
     proto: CEJusticeHitscan
     fireCost: 5
-  - type: PredictedBattery
+  - type: Battery
     maxCharge: 40
     startingCharge: 40
   - type: Gun

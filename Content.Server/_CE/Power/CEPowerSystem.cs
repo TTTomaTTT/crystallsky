@@ -83,7 +83,7 @@ public sealed partial class CEPowerSystem : CESharedPowerSystem
         if (!TryComp<BatteryComponent>(ent, out var battery))
             return;
 
-        Irradiate(Transform(ent).Coordinates, battery.CurrentCharge, ent.Comp.Time);
+        Irradiate(Transform(ent).Coordinates, battery.LastCharge, ent.Comp.Time);
     }
 
     private void OnPowerChanged(Entity<CEEnergyLeakComponent> ent, ref PowerConsumerReceivedChanged args)

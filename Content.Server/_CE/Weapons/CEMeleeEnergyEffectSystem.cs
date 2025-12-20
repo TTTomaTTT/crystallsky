@@ -42,7 +42,7 @@ public sealed class CEMeleeEnergyEffectSystem : CESharedMeleeEnergyEffectSystem
 
         if (ent.Comp.EnergyRequired > 0 && TryComp<BatteryComponent>(ent, out var battery))
         {
-            if (battery.CurrentCharge < ent.Comp.EnergyRequired)
+            if (battery.LastCharge < ent.Comp.EnergyRequired)
             {
                 Popup.PopupEntity(Loc.GetString("ce-melee-energy-effect-no-energy"), ent.Owner);
                 Audio.PlayPvs(ent.Comp.NoEnergySound, ent.Owner);
@@ -58,7 +58,7 @@ public sealed class CEMeleeEnergyEffectSystem : CESharedMeleeEnergyEffectSystem
     private void UpdateBattery(Entity<CEMeleeEnergyEffectComponent> ent, BatteryComponent battery)
     {
         ent.Comp.Capacity = (int)(battery.MaxCharge / ent.Comp.EnergyRequired);
-        ent.Comp.Hits = (int)(battery.CurrentCharge / ent.Comp.EnergyRequired);
+        ent.Comp.Hits = (int)(battery.LastCharge / ent.Comp.EnergyRequired);
         DirtyField(ent, ent.Comp, nameof(CEMeleeEnergyEffectComponent.Hits));
         DirtyField(ent, ent.Comp, nameof(CEMeleeEnergyEffectComponent.Capacity));
     }

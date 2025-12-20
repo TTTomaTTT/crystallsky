@@ -29,7 +29,7 @@
   - type: BatteryAmmoProvider
     proto: CEPeaceKeeperHitscan
     fireCost: 10
-  - type: PredictedBattery
+  - type: Battery
     maxCharge: 50
     startingCharge: 50
   - type: Gun
@@ -81,7 +81,7 @@
     difficulty: 5
   - type: Sprite
     sprite: _CE/Objects/Tools/Weapons/Guns/peacekeeper_golden.rsi
-  - type: PredictedBattery
+  - type: Battery
     maxCharge: 80
     startingCharge: 80
   - type: StaticPrice

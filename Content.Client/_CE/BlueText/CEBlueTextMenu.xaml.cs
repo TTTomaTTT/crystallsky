@@ -12,6 +12,8 @@ public sealed partial class CEBlueTextMenu : FancyWindow
 {
     public event Action<string>? OnSubmitBlueText;
 
+    private bool _userHasEdited = false;
+
     public CEBlueTextMenu()
     {
         RobustXamlLoader.Load(this);
@@ -30,6 +32,10 @@ public sealed partial class CEBlueTextMenu : FancyWindow
 
     public void Update(EntityUid owner, CEBlueTextBuiState state)
     {
+        // Если пользователь редактировал текст, не перезаписываем его обновлением с сервера
+        if (_userHasEdited)
+            return;
+
         var text = state.Text;
 
         if (text.Length > CESharedBlueTextSystem.MaxTextLength)
@@ -44,6 +50,7 @@ public sealed partial class CEBlueTextMenu : FancyWindow
 
     private void OnTextChanged()
     {
+        _userHasEdited = true;
         ClampAndUpdate();
     }
 

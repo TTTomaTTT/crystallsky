@@ -30,6 +30,7 @@
     components:
     - type: Thieving
       stripTimeReduction: 0
+      stealthy: true
 
 - type: skill
   id: PickpocketingSpeedUpgrade
@@ -46,6 +47,7 @@
     components:
     - type: Thieving
       stripTimeReduction: 2 # We just override the previous value to add more speed
+      stealthy: true
   restrictions:
   - !type:NeedPrerequisite
     prerequisite: Pickpocketing

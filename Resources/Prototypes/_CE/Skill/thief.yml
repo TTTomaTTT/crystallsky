@@ -11,7 +11,7 @@
   learnedIcon:
     sprite: _CE/Interface/NodeTree/thief.rsi
     state: learned
-  selectionIcon:
+  selectedIcon:
     sprite: _CE/Interface/NodeTree/thief.rsi
     state: selected
 

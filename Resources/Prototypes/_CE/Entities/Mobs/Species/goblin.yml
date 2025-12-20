@@ -83,7 +83,7 @@
     prototype: CEHuman
     requiredLegs: 2
   - type: Bloodstream
-    bloodReagents:
+    bloodReferenceSolution:
       reagents:
       - ReagentId: CEBloodGoblin
         Quantity: 1

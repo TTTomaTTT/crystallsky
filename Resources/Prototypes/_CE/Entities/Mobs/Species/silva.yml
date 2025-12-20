@@ -81,7 +81,7 @@
 #  - type: CEAuraImprint
 #    imprintColor: "#31cc3b"
   - type: Bloodstream
-    bloodReagents:
+    bloodReferenceSolution:
       reagents:
       - ReagentId: CEBloodSilva
         Quantity: 1

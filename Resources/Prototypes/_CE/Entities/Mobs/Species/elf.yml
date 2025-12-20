@@ -29,7 +29,7 @@
     prototype: CEElf
     requiredLegs: 2
   - type: Bloodstream
-    bloodReagents:
+    bloodReferenceSolution:
       reagents:
       - ReagentId: CEBloodElf
         Quantity: 1

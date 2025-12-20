@@ -90,7 +90,7 @@
 #  - type: CEAuraImprint
 #    imprintColor: "#9e7e5d"
   - type: Bloodstream
-    bloodReagents:
+    bloodReferenceSolution:
       reagents:
       - ReagentId: CEBloodCarcat
         Quantity: 1

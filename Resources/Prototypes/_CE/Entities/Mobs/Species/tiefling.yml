@@ -14,7 +14,7 @@
     requiredLegs: 2
   - type: Wagging
   - type: Bloodstream
-    bloodReagents:
+    bloodReferenceSolution:
       reagents:
       - ReagentId: CEBloodTiefling
         Quantity: 1

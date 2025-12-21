@@ -7,6 +7,13 @@
     count: 1
 
 - type: tradingPosition
+  id: CEWeaponHammerIron
+  faction: DwarfMiners
+  service: !type:CEBuyItemsService
+    product: CEWeaponHammerIron
+    count: 1
+
+- type: tradingPosition
   id: CEWrench
   faction: DwarfMiners
   service: !type:CEBuyItemsService

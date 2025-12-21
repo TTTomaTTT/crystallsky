@@ -5727,7 +5727,6 @@ entities:
   - uid: 926
     components:
     - type: Transform
-      rot: 1.5707963267948966 rad
       pos: -2.5,-11.5
       parent: 1
 - proto: CETradingSellingPlatform
@@ -5740,7 +5739,6 @@ entities:
   - uid: 911
     components:
     - type: Transform
-      rot: 1.5707963267948966 rad
       pos: -4.5,-11.5
       parent: 1
 - proto: CEWallDirt

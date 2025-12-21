@@ -3,6 +3,7 @@ using Content.Shared._CE.Power.Components;
 using Content.Shared.Examine;
 using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
+using Content.Shared.Power.Components;
 
 namespace Content.Shared._CE.Power;
 
@@ -35,38 +36,41 @@ public abstract partial class CESharedPowerSystem
             return;
         }
 
-        BatteryQuery.TryComp(target, out var batteryTarget);
+        // Try to get battery from PowerCell slot first, fallback to direct BatteryComponent
+        Entity<BatteryComponent>? batteryTarget;
+        if (!PowerCell.TryGetBatteryFromSlot((target, null), out batteryTarget))
+        {
+            if (BatteryQuery.TryComp(target, out var directBattery))
+                batteryTarget = (target, directBattery);
+        }
+
         SpawnAtPosition(ent.Comp.VFX, Transform(args.Target.Value).Coordinates);
 
         if (ent.Comp.ConsumeMode)
         {
+            // Drain mode: only works if target has a battery
             if (batteryTarget is null)
                 return;
 
-            var drained = -Battery.ChangeCharge((target, batteryTarget), -ent.Comp.TransferAmount);
+            var drained = -Battery.ChangeCharge((batteryTarget.Value.Owner, batteryTarget.Value.Comp), -ent.Comp.TransferAmount);
             if (drained <= 0)
                 return;
 
-            var drainedPercent = drained / ent.Comp.TransferAmount;
-
             Battery.ChangeCharge((user, userBattery), drained);
-            PullTowardsUser(target, user, ent.Comp.PullDistance * drainedPercent, ent.Comp.ThrowPower);
-            args.Handled = true;
         }
         else
         {
+            // Transfer mode: can dump energy even if target has no battery (into the air)
             var spent = -Battery.ChangeCharge((user, userBattery), -ent.Comp.TransferAmount);
-            PushFromUser(target, user, ent.Comp.ThrowDistance, ent.Comp.ThrowPower);
-
-            if (batteryTarget is null)
-                return;
 
             if (spent <= 0)
                 return;
 
-            Battery.ChangeCharge((target, batteryTarget), spent);
-            args.Handled = true;
+            if (batteryTarget is not null)
+                Battery.ChangeCharge((batteryTarget.Value.Owner, batteryTarget.Value.Comp), spent);
         }
+
+        args.Handled = true;
     }
 
     private void OnGloveExamined(Entity<CEEnergyTransferGloveComponent> ent, ref ExaminedEvent args)
@@ -76,26 +80,6 @@ public abstract partial class CESharedPowerSystem
                 Loc.GetString(ent.Comp.ConsumeMode
                     ? "ce-energy-transfer-glove-mode-drain"
                     : "ce-energy-transfer-glove-mode-transfer"))));
-    }
-
-    private void PushFromUser(EntityUid target, EntityUid user, float distance, float power)
-    {
-        var dir = _transform.GetWorldPosition(target) - _transform.GetWorldPosition(user);
-        if (dir == Vector2.Zero)
-            return;
-
-        var displacement = Vector2.Normalize(dir) * distance;
-        _throw.TryThrow(target, displacement, power, user, doSpin: true);
-    }
-
-    private void PullTowardsUser(EntityUid target, EntityUid user, float distance, float power)
-    {
-        var dir = _transform.GetWorldPosition(user) - _transform.GetWorldPosition(target);
-        if (dir == Vector2.Zero)
-            return;
-
-        var displacement = Vector2.Normalize(dir) * distance;
-        _throw.TryThrow(target, displacement, power, user, doSpin: true);
     }
 
     private void OnUseInHand(Entity<CEEnergyTransferGloveComponent> ent, ref UseInHandEvent args)

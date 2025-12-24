@@ -1,9 +1,4 @@
-﻿/*
- * This file is sublicensed under MIT License
- * https://github.com/space-wizards/space-station-14/blob/master/LICENSE.TXT
- */
-
-using Content.Shared._CE.Workbench;
+﻿using Content.Shared._CE.Workbench;
 using Robust.Client.UserInterface;
 
 namespace Content.Client._CE.Workbench;
@@ -22,7 +17,7 @@ public sealed class CEWorkbenchBoundUserInterface : BoundUserInterface
 
         _window = this.CreateWindow<CEWorkbenchWindow>();
 
-        _window.OnCraft += entry => SendMessage(new CEWorkbenchUiCraftMessage(entry.ProtoId));
+        _window.OnCraft += entry => SendMessage(new CEWorkbenchUiClickRecipeMessage(entry.ProtoId));
     }
 
     protected override void UpdateState(BoundUserInterfaceState state)

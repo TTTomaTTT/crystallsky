@@ -1,4 +1,5 @@
 using Content.Server.Power.EntitySystems;
+using Content.Server.Storage.EntitySystems;
 using Content.Shared._CE.Funnel;
 using Content.Shared.Power;
 using Content.Shared.Power.Components;
@@ -16,13 +17,12 @@ namespace Content.Server._CE.Funnel;
 
 public sealed partial class CEFunnelSystem : EntitySystem
 {
-    [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
     [Dependency] private readonly SharedContainerSystem _container = default!;
-    [Dependency] private readonly SharedStorageSystem _storage = default!;
     [Dependency] private readonly SharedMapSystem _mapSystem = default!;
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly INetManager _net = default!;
+    [Dependency] private readonly StorageSystem _storage = default!;
 
     public override void Initialize()
     {
@@ -92,8 +92,6 @@ public sealed partial class CEFunnelSystem : EntitySystem
 
     private void OnStartCollide(Entity<CEFunnelComponent> ent, ref StartCollideEvent args)
     {
-        if (!_whitelist.CheckBoth(args.OtherEntity, ent.Comp.Blacklist, ent.Comp.Whitelist))
-            return;
         if (args.OurFixtureId != ent.Comp.FixtureId)
             return;
 
@@ -119,14 +117,20 @@ public sealed partial class CEFunnelSystem : EntitySystem
         var anchoredEnumerator = _mapSystem.GetAnchoredEntitiesEnumerator(gridUid, grid, targetTile);
         while (anchoredEnumerator.MoveNext(out var anchoredEntity))
         {
-            if (!TryComp<StorageComponent>(anchoredEntity.Value, out var storage))
+            if (!_container.TryGetContainer(anchoredEntity.Value, ent.Comp.ContainerCheckId, out var container))
                 continue;
 
-            if (_storage.Insert(anchoredEntity.Value, target, out _, user: null, storage))
-            {
-                _audio.PlayPredicted(ent.Comp.InsertSound, xform.Coordinates, null);
-                return true;
-            }
+            var success = false;
+            if (ent.Comp.ContainerCheckId == StorageComponent.ContainerId)
+                success = _storage.Insert(anchoredEntity.Value, target, out _, user: null);
+            else
+                success = _container.Insert(target, container);
+
+            if (!success)
+                continue;
+
+            _audio.PlayPredicted(ent.Comp.InsertSound, xform.Coordinates, null);
+            return true;
         }
 
         return false;
@@ -154,16 +158,13 @@ public sealed partial class CEFunnelSystem : EntitySystem
         var anchoredEnumerator = _mapSystem.GetAnchoredEntitiesEnumerator(gridUid, grid, targetTile);
         while (anchoredEnumerator.MoveNext(out var anchoredEntity))
         {
-            if (!TryComp<StorageComponent>(anchoredEntity.Value, out var storage))
+            if (!_container.TryGetContainer(anchoredEntity.Value, ent.Comp.ContainerCheckId, out var container))
                 continue;
 
-            if (storage.Container.ContainedEntities.Count == 0)
+            if (container.ContainedEntities.Count == 0)
                 continue;
 
-            var itemToExtract = storage.Container.ContainedEntities[0];
-
-            if (!_whitelist.CheckBoth(itemToExtract, ent.Comp.Blacklist, ent.Comp.Whitelist))
-                continue;
+            var itemToExtract = container.ContainedEntities[0];
 
             if (_container.RemoveEntity(anchoredEntity.Value, itemToExtract, destination: xform.Coordinates))
             {

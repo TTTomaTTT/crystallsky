@@ -4,8 +4,8 @@ meta:
   engineVersion: 268.0.0
   forkId: ""
   forkVersion: ""
-  time: 12/22/2025 21:14:07
-  entityCount: 580
+  time: 12/24/2025 17:18:58
+  entityCount: 586
 maps:
 - 1
 grids:
@@ -262,6 +262,14 @@ entities:
     - type: Transform
       gridTraversal: False
       pos: -2.9223285,-7.139414
+      parent: 1
+    - type: ViewSubscriber
+  - uid: 146
+    components:
+    - type: MetaData
+    - type: Transform
+      gridTraversal: False
+      pos: -26.692438,-9.452552
       parent: 1
     - type: ViewSubscriber
   - uid: 156
@@ -521,6 +529,32 @@ entities:
     components:
     - type: Transform
       pos: 6.5,-3.5
+      parent: 1
+- proto: CEFunnel
+  entities:
+  - uid: 240
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 13.5,-1.5
+      parent: 1
+  - uid: 583
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 13.5,-2.5
+      parent: 1
+  - uid: 584
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 15.5,-1.5
+      parent: 1
+  - uid: 585
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 14.5,-2.5
       parent: 1
 - proto: CEPipeBrassBig
   entities:
@@ -3090,6 +3124,13 @@ entities:
     components:
     - type: Transform
       pos: 7.491313,-8.624699
+      parent: 1
+- proto: CEWorkbenchAutoMeltingFurnace
+  entities:
+  - uid: 586
+    components:
+    - type: Transform
+      pos: 14.5,-0.5
       parent: 1
 - proto: CEZLevelLadderDirtCliff
   entities:

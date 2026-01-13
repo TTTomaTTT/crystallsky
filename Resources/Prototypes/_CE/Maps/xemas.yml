@@ -1,0 +1,50 @@
+- type: gameMap
+  id: Xemos
+  mapName: Xemos
+  minPlayers: 1
+  maxPlayers: 20
+  mapsBelow:
+  - /Maps/_CE/Xemos/Xemos-2.yml
+  - /Maps/_CE/Xemos/Xemos-1.yml
+  mapPath: /Maps/_CE/Xemos/Xemos0.yml
+  mapsAbove:
+  - /Maps/_CE/Xemos/Xemos1.yml
+  - /Maps/_CE/Xemos/Xemos2.yml
+  - /Maps/_CE/Xemos/Xemos3.yml
+  zLevelsComponentOverrides:
+    - type: MapAtmosphere
+      space: False
+      mixture:
+        volume: 2500
+        immutable: True
+        temperature: 293.15
+        moles:
+          Oxygen: 21.824879
+          Nitrogen: 82.10312
+    - type: Parallax
+      parallax: CESky
+    - type: SunShadowCycle
+      offset: 490
+    - type: LightCycle
+      offset: 490
+      originalColor: "#b8d9dc"
+    - type: SunShadow
+    - type: MapLight
+      ambientLightColor: "#b8d9dc"
+  stations:
+    Xemos:
+      stationProto: CEStandardImperialFloatingIsland
+      components:
+        - type: StationNameSetup
+          mapNameTemplate: "Xemos"
+        - type: StationJobs
+          availableJobs:
+            #Guard (5)
+            CEGuardCommander: [ 1, 1 ]
+            CEGuard: [ 4, 4 ]
+            #Tavern (4)
+            CETavernmaster: [ 1, 1 ]
+            CEChef: [ 3, 3 ]
+            #Citizens
+            CEBard: [ 2, 2 ]
+            CETownfolk: [ -1, -1 ]
